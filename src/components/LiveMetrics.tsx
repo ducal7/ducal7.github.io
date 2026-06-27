@@ -4,7 +4,6 @@ import { Reveal } from './Reveal'
 import { useSessionTelemetry } from '../hooks/useSessionTelemetry'
 import { useVisitorCount } from '../hooks/useVisitorCount'
 import { useEventStream } from '../hooks/useEventStream'
-import { GOATCOUNTER_ENABLED } from '../config'
 import { PROJECTS } from '../data'
 
 const KIND_COLOR: Record<string, string> = {
@@ -167,13 +166,11 @@ export function LiveMetrics() {
             <Stat label="Language" value={t.language} />
             <Stat label="DOM ready" value={t.loadMs} />
           </div>
-          <p className="live-note">
-            {visitors.source === 'global'
-              ? 'Real global page views via GoatCounter (privacy-first, no cookies).'
-              : GOATCOUNTER_ENABLED
-                ? 'Showing your visits to this browser. The global page-view total appears once GoatCounter’s visitor-count display is enabled and the site is live.'
-                : 'Counting your visits locally — wire a free GoatCounter code in config.ts for a global, cross-visitor total.'}
-          </p>
+          {visitors.source === 'global' && (
+            <p className="live-note">
+              Real global page views via GoatCounter (privacy-first, no cookies).
+            </p>
+          )}
         </Reveal>
 
         <Reveal className="live-card live-card--wide" delay={0.1}>
